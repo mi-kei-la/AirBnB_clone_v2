@@ -154,7 +154,7 @@ class HBNBCommand(cmd.Cmd):
                             continue
                         except ValueError:
                             pass
-                    # Check si es string (si tienen comillas al principio y final)
+                    # Check si es string (si tienen comillas principio y fin)
                     if keyvalue[1][0] is keyvalue[1][len(keyvalue[1]) - 1]\
                        and keyvalue[1][0] is '"':
                         value = ""
@@ -165,8 +165,6 @@ class HBNBCommand(cmd.Cmd):
                                 character = '\\"'
                             value += character
                         setattr(new_instance, keyvalue[0], value)
-
-
                         # seguir chequeando
                 print(new_instance.id)
                 storage.save()
