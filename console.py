@@ -118,13 +118,58 @@ class HBNBCommand(cmd.Cmd):
         if not args:
             print("** class name missing **")
             return
-        elif args not in HBNBCommand.classes:
-            print("** class doesn't exist **")
-            return
-        new_instance = HBNBCommand.classes[args]()
-        storage.save()
-        print(new_instance.id)
-        storage.save()
+        # Si es solo el nombre de la clase, crear instancia vacia
+        elif args in HBNBCommand.classes:
+            new_instance = HBNBCommand.classes[args]()
+            print(new_instance.id)
+            storage.save()
+        else:  # Si existen parametros:
+            # Splitear parametros
+            newargs = args.split(" ")
+            # Si el primer argumento no es clase valida tirar error
+            if newargs[0] not in HBNBCommand.classes:
+                print("** class doesn't exist **")
+                return
+            else:  # Si el primer argumento es clase valida y existen mas args
+                # Separar classname de parametros, crear instancia
+                classname = newargs[0]
+                new_instance = HBNBCommand.classes[classname]()
+                newargs.pop(0)
+                for og_param in newargs:
+                    # Separar key="value" para setear atributos
+                    keyvalue = og_param.split("=")
+                    # -- Check value conditions --
+                    # Check si es int o float
+                    if "." in keyvalue[1]:
+                        try:
+                            keyvalue[1] = float(keyvalue[1])
+                            setattr(new_instance, keyvalue[0], keyvalue[1])
+                            continue
+                        except ValueError:
+                            pass
+                    else:
+                        try:
+                            keyvalue[1] = int(keyvalue[1])
+                            setattr(new_instance, keyvalue[0], keyvalue[1])
+                            continue
+                        except ValueError:
+                            pass
+                    # Check si es string (si tienen comillas al principio y final)
+                    if keyvalue[1][0] is keyvalue[1][len(keyvalue[1]) - 1]\
+                       and keyvalue[1][0] is '"':
+                        value = ""
+                        for character in keyvalue[1][1:-1]:
+                            if character is "_":
+                                character = " "
+                            if character is '"':
+                                character = '\\"'
+                            value += character
+                        setattr(new_instance, keyvalue[0], value)
+
+
+                        # seguir chequeando
+                print(new_instance.id)
+                storage.save()
 
     def help_create(self):
         """ Help information for the create method """
