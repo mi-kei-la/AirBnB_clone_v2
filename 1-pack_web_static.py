@@ -10,12 +10,13 @@ def do_pack():
     This function returns the archive path if successful, None otherwise.
     """
     from fabric.api import local
+    from datetime import datetime
 
-    filename = "web_static_$(date+%Y%m%d%H%M%S).tgz"
+    filename = "web_static_" + datetime.strftime(datetime.now(),
+                                                 "%Y%m%d%H%M%S") + ".tgz"
     local("mkdir -p versions")
     try:
-        path = local("tar -zcf {} ./web_static"
-                     .format(filename))
-        return path
+        local("tar -czvf ./versions/{} ./web_static" .format(filename))
+        return filename
     except Exception as error:
         return None
