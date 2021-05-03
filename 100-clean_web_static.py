@@ -21,7 +21,7 @@ def do_clean(number=0):
         run('cd /data/web_static/releases; \
             ls -t | tail -n +2 | xargs rm -rf')
     else:
-        number = number + 1
+        number = number + 2
         local('cd versions; ls -t | tail -n +' +
               number + ' | xargs rm -rf')
         run('cd /data/web_static/releases; ls -t | tail -n +' +
