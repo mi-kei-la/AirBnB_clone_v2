@@ -23,15 +23,15 @@ def do_deploy(archive_path):
 
         # Uncompress file and delete original
         run('mkdir -p /data/web_static/releases/' + filename[:-4])
-        run('tar -xzvf /tmp/' + filename + ' -C /data/web_static/releases/'
-            + filename[:-4] + '/')
+        run('tar -xzvf /tmp/' + filename + ' -C /data/web_static/releases/' +
+            filename[:-4] + '/')
         run('rm /tmp/' + filename)
 
         # Move uncompressed files to parent folder (file is a folder)
         run('mv /data/web_static/releases/' + filename[:-4] + '/web_static/* \
-        /data/web_static/releases/' + filename[:-4] + '/')
-        run('rm -rf /data/web_static/releases/' + filename[:-4]
-            + '/web_static')
+            /data/web_static/releases/' + filename[:-4] + '/')
+        run('rm -rf /data/web_static/releases/' + filename[:-4] +
+            '/web_static')
 
         # Update symbolic link
         run('rm -rf /data/web_static/current')
