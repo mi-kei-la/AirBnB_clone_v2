@@ -13,14 +13,15 @@ def do_clean(number=0):
     0 or 1, keep only the most recent version. If number is 2,
     keep latest and second latest version, and so on. """
     num = int(number)
-    if number < 0:
+    if num < 0:
         return
 
-    if (number < 2):
-        local('ls -t ./versions | tail -n +1 | xargs rm -f')
-        with ('cd /data/web_static/releases'):
-            run('ls -t | tail -n +1 | xargs rm -f')
+    if (num < 2):
+        local('cd versions; ls -t | tail -n +1 | xargs rm -f')
+        run('cd /data/web_static/releases; \
+            ls -t | tail -n +1 | xargs rm -rf')
     else:
-        local('ls -t ./versions | tail -n +{} | xargs rm -f'.format(number))
-        with ('cd /data/web_static/releases'):
-            run('ls -t | tail -n +{} | xargs rm -f'.format(number))
+        local('cd versions; ls -t | tail -n +' +
+              number + ' | xargs rm -rf')
+        run('cd /data/web_static/releases; ls -t | tail -n +' +
+            number + ' | xargs rm -rf')
