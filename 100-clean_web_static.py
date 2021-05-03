@@ -17,7 +17,7 @@ def do_clean(number=0):
         return
 
     if (num < 2):
-        local('cd versions; ls -t | tail -n +1 | xargs rm -f')
+        local('cd versions; ls -t | tail -n +2 | xargs rm -f')
         run('cd /data/web_static/releases; \
             ls -t | tail -n +1 | xargs rm -rf')
     else:
