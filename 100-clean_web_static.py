@@ -12,17 +12,13 @@ def do_clean(number=0):
     how many versions of archives shall be kept. If number is
     0 or 1, keep only the most recent version. If number is 2,
     keep latest and second latest version, and so on. """
-    num = int(number)
-    if num < 0:
-        return
 
-    if (num < 2):
-        local('cd versions; ls -t | tail -n +2 | xargs rm -f')
-        run('cd /data/web_static/releases; \
-            ls -t | tail -n +2 | xargs rm -rf')
-    else:
-        number = number + 2
-        local('cd versions; ls -t | tail -n +' +
-              number + ' | xargs rm -rf')
-        run('cd /data/web_static/releases; ls -t | tail -n +' +
-            number + ' | xargs rm -rf')
+    num = int(number)
+    if num == 0 or num == 1:
+        local("cd versions; ls -t | tail -n +2 | xargs rm -f")
+        run("cd /data/web_static/releases; ls -t | tail -n +2 | xargs rm -f")
+    elif num >= 2:
+        num += 1
+        local("cd versions; ls -t | tail -n +{} | xargs rm -f".format(num))
+        run("cd /data/web_static/releases; ls -t |"
+            " tail -n +{} | xargs rm -f".format(num))
