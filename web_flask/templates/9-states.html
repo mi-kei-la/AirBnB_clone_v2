@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<HTML lang="en">
+    <HEAD>
+        <TITLE>HBNB</TITLE>
+    </HEAD>
+    <BODY>
+        {% if states is iterable %}
+        {# <!-- Dictionary with all states --> #}
+        <H1>States</H1>
+        <UL>
+            {% for state in states.items()|sort(attribute="1.name") %}
+                <LI>{{ state[1].id }}: <B>{{ state[1].name }}</B>
+                    <UL>
+                        {% for city in state[1].cities|sort(attribute="name") %}
+                            <LI>{{ city.id }}: <B>{{ city.name }}</B></LI>
+                        {% endfor %}
+                    </UL>
+                </LI>
+            {% endfor %}
+        </UL>
+        {% elif states is boolean %}
+        {# <!-- ID was not valid --> #}
+            <H1>Not found!</H1>
+        {% else %}
+        {# <!-- Valid state ID as parameter--> #}
+            <H1>State: {{ states.name }}</H1>
+            <H3>City:</H3>
+            {% for city in states.cities|sort(attribute="name") %}
+                <LI>{{ city.id }}: <B>{{ city.name }}</B></LI>
+            {% endfor %}
+        {% endif %}
+    </BODY>
+</HTML>

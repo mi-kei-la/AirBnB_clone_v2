@@ -7,11 +7,22 @@ app = Flask(__name__)
 
 
 @app.route('/states', strict_slashes=False)
-@app.route('/states/<id>', strict_slashes=False)
-def cities_by_states():
-    """display a HTML page"""
+def all_states():
+    """Display all states."""
     new_dict = storage.all(State)
-    return render_template('8-cities_by_states.html', states=new_dict)
+    return render_template('9-states.html', states=new_dict)
+
+
+@app.route('/states/<id>', strict_slashes=False)
+def cities_by_states(id=None):
+    """display a HTML page"""
+    all_states = storage.all(State)
+    key = 'State.' + id
+    if key in all_states.keys():
+        state = all_states[key]
+        return render_template('9-states.html', states=state)
+    else:
+        return render_template('9-states.html', states=True)
 
 
 @app.teardown_appcontext
