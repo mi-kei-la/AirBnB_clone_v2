@@ -1,6 +1,5 @@
 #!/usr/bin/python3
-""" This is a single module script that starts Flask.
-"""
+""" This is a single module script that starts Flask."""
 from flask import Flask, render_template
 from models import storage, State
 app = Flask(__name__)
