@@ -5,7 +5,6 @@
     </HEAD>
     <BODY>
         {% if states is iterable %}
-        {# <!-- Dictionary with all states --> #}
         <H1>States</H1>
         <UL>
             {% for state in states.items()|sort(attribute="1.name") %}
@@ -19,10 +18,8 @@
             {% endfor %}
         </UL>
         {% elif states is boolean %}
-        {# <!-- ID was not valid --> #}
             <H1>Not found!</H1>
         {% else %}
-        {# <!-- Valid state ID as parameter--> #}
             <H1>State: {{ states.name }}</H1>
             <H3>City:</H3>
             {% for city in states.cities|sort(attribute="name") %}
